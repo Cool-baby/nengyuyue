@@ -33,15 +33,16 @@ notify(f"能预约——浴室自动预约\n"
        f"--------------------\n")
 
 
-#定义URL，firsturl为URL的前半部分，firstvalue为时间段代码，根据我的测试，南区男浴室9.30-9.50代码为558，前一个时间段代码-1
+#定义URL，firsturl为URL的前半部分，firstvalue为时间段代码，根据我的测试，南区男浴室9.30-9.50代码为558，北区男浴室为478，前一个时间段代码-1
 global firstvalue
 firstvalue = 558
-firsturl = 'http://ligong.deshineng.com:8082/brmclg/api/bathRoom/bookOrder?time=1637818278759&bookstatusid='
+firsturl = 'http://ligong.deshineng.com:8082/brmclg/api/bathRoom/bookOrder?time='
 
 
 #预约方法
 def yuyue(aurl,avalue):
-    url = aurl+str(avalue)
+    firstime = round(time.time() * 1000)
+    url = aurl+str(firstime)+'&bookstatusid='+str(avalue)
     headers = {
         'Host': 'ligong.deshineng.com:8082',
         'Accept': 'application/json, text/javascript, */*; q=0.01',
