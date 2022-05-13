@@ -90,7 +90,13 @@ def yuyue(aurl,avalue):
                    f"正在尝试预约上一个时间段！\n"
                    f"--------------------\n")
             firstvalue-=1
-            yuyue(firsturl,firstvalue)
+            #yuyue(firsturl,firstvalue)            
+            if firstvalue < 550:
+                notify(f"不预约时间太早的！\n 结束预约")
+                return False
+            else:
+                yuyue(firsturl, firstvalue)
+            
     else:
         #print("{0}登录失败".format(lists[0]['user']))
         notify(f"{lists[0]['user']}\t登录失败")
