@@ -4,14 +4,15 @@ import requests
 import json
 import time
 
+
 # 读取account.py内的用户数据
 try:
     from account import accounts
-
     lists = accounts
 except Exception as error:
     print(f'失败原因:{error}')
     lists = []
+
 
 # 调用pushplus
 try:
@@ -19,6 +20,7 @@ try:
 except Exception as error:
     print(f'失败原因，推送配置有误:{error}')
     sys.exit(0)
+
 
 # 配信内容格式
 allMess = ''
@@ -70,13 +72,13 @@ def yuyue(student, firstUrl, value):
         if succeedflag == 'Y':
             # print("{0}预约成功".format(student['user']))
             notify(f"{student['user']}\t预约成功")
-
+            '''
             print("预约信息：ID：{0}，浴室：{1}，时间：{2}，学号：{3}，创建时间：{4}".format(response["data"]["bookOrderList"][0]['id'],
                                                                      response["data"]["bookOrderList"][0]['bathRoomName'],
                                                                      response["data"]["bookOrderList"][0]['period'],
                                                                      response["data"]["bookOrderList"][0]['studentName'],
                                                                      response["data"]["bookOrderList"][0]['createTimeStr']))
-
+            '''
             notify(f"预约信息：\n"
                    f"ID：{response['data']['bookOrderList'][0]['id']}\n"
                    f"学号：{response['data']['bookOrderList'][0]['studentName']}\n"
@@ -92,7 +94,6 @@ def yuyue(student, firstUrl, value):
                    f"正在尝试预约上一个时间段！\n"
                    f"--------------------\n")
             avalue -= 1
-            # yuyue(firsturl,firstvalue)
             if avalue < 555:
                 notify(f"不预约时间太早的！\n 结束预约 \n")
                 return False
