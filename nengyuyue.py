@@ -4,15 +4,14 @@ import requests
 import json
 import time
 
-
 # 读取account.py内的用户数据
 try:
     from account import accounts
+
     lists = accounts
 except Exception as error:
     print(f'失败原因:{error}')
     lists = []
-
 
 # 调用pushplus
 try:
@@ -20,7 +19,6 @@ try:
 except Exception as error:
     print(f'失败原因，推送配置有误:{error}')
     sys.exit(0)
-
 
 # 配信内容格式
 allMess = ''
@@ -39,7 +37,7 @@ notify(f"能预约——浴室自动预约\n"
 
 # 定义URL，firsturl为URL的前半部分，firstvalue为时间段代码，根据我的测试，南区男浴室9.30-9.50代码为558，北区男浴室为478，前一个时间段代码-1
 global firstvalue
-firstvalue = 558
+# firstvalue = 679
 firsturl = 'http://ligong.deshineng.com:8082/brmclg/api/bathRoom/bookOrder?time='
 
 
@@ -94,7 +92,8 @@ def yuyue(student, firstUrl, value):
                    f"正在尝试预约上一个时间段！\n"
                    f"--------------------\n")
             avalue -= 1
-            if avalue < 555:
+            # yuyue(firsturl,firstvalue)
+            if avalue < 558:
                 notify(f"不预约时间太早的！\n 结束预约 \n")
                 return False
             else:
@@ -110,6 +109,7 @@ if __name__ == '__main__':
     start = time.time()
     try:
         for user in lists:
+            firstvalue = user['timeId']
             threading.Thread(target=yuyue, args=(user, firsturl, firstvalue)).start()
 
     except Exception as error:
@@ -117,8 +117,7 @@ if __name__ == '__main__':
         notify(f'失败原因:{error}')
 
     end = time.time()
-    notify(f"本次预约用时：{end-start} 秒\n"
-           f"击败了全校 99.99999999999% 的同学\n")
+    notify(f"本次预约用时：{end-start} 秒\n")
     time.sleep(2)
     # 推送服务
     pushplus_bot("浴室预约", allMess)
