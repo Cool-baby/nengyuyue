@@ -1,3 +1,4 @@
+import random
 import sys
 import threading
 import requests
@@ -32,11 +33,11 @@ def notify(content=None):
 # 日志录入时间
 notify(f"能预约——浴室自动预约\n"
        f"时间:{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}\n"
-       f"--------/* _ *\\--------\n")
+       f"-----------/* _ *\\-----------\n")
 
 
 # 定义URL，firsturl为URL的前半部分，firstvalue为时间段代码，根据我的测试，南区男浴室9.30-9.50代码为558，北区男浴室为478，前一个时间段代码-1
-global firstvalue
+# global firstvalue
 # firstvalue = 679
 firsturl = 'http://ligong.deshineng.com:8082/brmclg/api/bathRoom/bookOrder?time='
 
@@ -106,6 +107,11 @@ def yuyue(student, firstUrl, value):
 
 # 主函数
 if __name__ == '__main__':
+    # 随机休眠1-6秒，防止被系统封号
+    randomNumber = random.randint(1, 6)
+    notify(f"随机休眠 {randomNumber} 秒，防止被特殊关照")
+    time.sleep(randomNumber)
+
     start = time.time()
     try:
         for user in lists:
